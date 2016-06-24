@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"testing"
 
 	"github.com/caiguanhao/sogoudict"
@@ -24,32 +25,32 @@ func Example_parseFile() {
 		return
 	}
 	for _, item := range dict.Items {
-		fmt.Println(item.Text, item.Pinyin)
+		fmt.Println(item.Text, strings.Join(item.Abbr, ""), item.Pinyin)
 	}
 	// Output:
-	// 哈希 [ha xi]
-	// 第一类对象 [di yi lei dui xiang]
-	// 方法 [fang fa]
-	// 初始化 [chu shi hua]
-	// 伪变量 [wei bian liang]
-	// 全局变量 [quan ju bian liang]
-	// 局部变量 [ju bu bian liang]
-	// 实例变量 [shi li bian liang]
-	// 类变量 [lei bian liang]
-	// 变量 [bian liang]
-	// 常量 [chang liang]
-	// 析构函数 [xi gou han shu]
-	// 构造函数 [gou zao han shu]
-	// 访问器 [fang wen qi]
-	// 属性 [shu xing]
-	// 成员方法 [cheng yuan fang fa]
-	// 成员函数 [cheng yuan han shu]
-	// 成员属性 [cheng yuan shu xing]
-	// 成员 [cheng yuan]
-	// 实例 [shi li]
-	// 函数式 [han shu shi]
-	// 面向过程 [mian xiang guo cheng]
-	// 面向对象 [mian xiang dui xiang]
+	// 哈希 hx [ha xi]
+	// 第一类对象 dyldx [di yi lei dui xiang]
+	// 方法 ff [fang fa]
+	// 初始化 csh [chu shi hua]
+	// 伪变量 wbl [wei bian liang]
+	// 全局变量 qjbl [quan ju bian liang]
+	// 局部变量 jbbl [ju bu bian liang]
+	// 实例变量 slbl [shi li bian liang]
+	// 类变量 lbl [lei bian liang]
+	// 变量 bl [bian liang]
+	// 常量 cl [chang liang]
+	// 析构函数 xghs [xi gou han shu]
+	// 构造函数 gzhs [gou zao han shu]
+	// 访问器 fwq [fang wen qi]
+	// 属性 sx [shu xing]
+	// 成员方法 cyff [cheng yuan fang fa]
+	// 成员函数 cyhs [cheng yuan han shu]
+	// 成员属性 cysx [cheng yuan shu xing]
+	// 成员 cy [cheng yuan]
+	// 实例 sl [shi li]
+	// 函数式 hss [han shu shi]
+	// 面向过程 mxgc [mian xiang guo cheng]
+	// 面向对象 mxdx [mian xiang dui xiang]
 }
 
 func Example_parseHTTP() {
@@ -78,17 +79,17 @@ func Example_parseHTTP() {
 		return
 	}
 	for _, item := range dict.Items {
-		fmt.Println(item.Text, item.Pinyin)
+		fmt.Println(item.Text, strings.Join(item.Abbr, ""), item.Pinyin)
 	}
 	// Output:
-	// 春鸽 [chun ge]
-	// 法克鱿 [fa ke you]
-	// 雅麽蝶 [ya mo die]
-	// 菊花蚕 [ju hua can]
-	// 吟稻燕 [yin dao yan]
-	// 吉跋猫 [ji ba mao]
-	// 达菲鸡 [da fei ji]
-	// 潜烈蟹 [qian lie xie]
-	// 尾申鲸 [wei shen jing]
-	// 草泥马 [cao ni ma]
+	// 春鸽 cg [chun ge]
+	// 法克鱿 fky [fa ke you]
+	// 雅麽蝶 ymd [ya mo die]
+	// 菊花蚕 jhc [ju hua can]
+	// 吟稻燕 ydy [yin dao yan]
+	// 吉跋猫 jbm [ji ba mao]
+	// 达菲鸡 dfj [da fei ji]
+	// 潜烈蟹 qlx [qian lie xie]
+	// 尾申鲸 wsj [wei shen jing]
+	// 草泥马 cnm [cao ni ma]
 }

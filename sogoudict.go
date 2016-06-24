@@ -41,6 +41,7 @@ const (
 type SogouDictItem struct {
 	weight int
 
+	Abbr   []string `json:"abbr"`   // abbreviated pinyin of each Chinese character
 	Pinyin []string `json:"pinyin"` // pinyin of each Chinese character
 	Text   string   `json:"text"`   // the Chinese word
 }
@@ -188,13 +189,16 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 		pinyinLen := int(_Uint16(integer))
 
 		var pinyin []string
+		var abbr []string
 
 		for pinyinLen > 0 {
 			_, err = rs.Read(integer)
 			if err != nil {
 				return
 			}
-			pinyin = append(pinyin, table[_Uint16(integer)])
+			py := table[_Uint16(integer)]
+			pinyin = append(pinyin, py)
+			abbr = append(abbr, py[0:1])
 			pinyinLen -= len(integer)
 		}
 
@@ -224,6 +228,7 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 			items = append(items, SogouDictItem{
 				weight: int(_Uint16(weight)),
 
+				Abbr:   abbr,
 				Pinyin: pinyin,
 				Text:   convert(word),
 			})
