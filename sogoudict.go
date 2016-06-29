@@ -17,7 +17,7 @@ var (
 	ErrInvalidDict = errors.New("not a valid sogou dict")
 
 	// .scel file might be corrupted
-	ErrInvalidPinyinTable = errors.New("no pinyin table found")
+	ErrCorruptedDict = errors.New("dict file might be corrupted")
 )
 
 var (
@@ -119,7 +119,7 @@ func getInfo(rs io.ReadSeeker, offset, size int64) (out string, err error) {
 
 func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 	if !check(rs, _PinYinTableIDOffset, _PinYinTableIDSize, _PinyinTableID) {
-		err = ErrInvalidPinyinTable
+		err = ErrCorruptedDict
 		return
 	}
 
@@ -197,6 +197,10 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 				return
 			}
 			py := table[_Uint16(integer)]
+			if len(py) == 0 {
+				err = ErrCorruptedDict
+				return
+			}
 			pinyin = append(pinyin, py)
 			abbr = append(abbr, py[0:1])
 			pinyinLen -= len(integer)
