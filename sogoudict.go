@@ -198,8 +198,9 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 			}
 			py := table[_Uint16(integer)]
 			if len(py) == 0 {
-				err = ErrCorruptedDict
-				return
+				//err = ErrCorruptedDict
+				//return
+				continue
 			}
 			pinyin = append(pinyin, py)
 			abbr = append(abbr, py[0:1])
@@ -209,23 +210,39 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 		for i := 0; i < count; i++ {
 			_, err = rs.Read(integer)
 			if err != nil {
+				if err == io.EOF {
+					err = nil
+					break
+				}
 				return
 			}
 
 			word := make([]byte, _Uint16(integer))
 			_, err = rs.Read(word)
 			if err != nil {
+				if err == io.EOF {
+					err = nil
+					break
+				}
 				return
 			}
 
 			_, err = rs.Read(integer)
 			if err != nil {
+				if err == io.EOF {
+					err = nil
+					break
+				}
 				return
 			}
 
 			weight := make([]byte, _Uint16(integer))
 			_, err = rs.Read(weight)
 			if err != nil {
+				if err == io.EOF {
+					err = nil
+					break
+				}
 				return
 			}
 
