@@ -238,8 +238,12 @@ func getItems(rs io.ReadSeeker) (items []SogouDictItem, err error) {
 			})
 		}
 
-		if err != nil && err != io.EOF {
-			return
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			} else {
+				return
+			}
 		}
 	}
 
