@@ -93,3 +93,38 @@ func Example_parseHTTP() {
 	// 尾申鲸 wsj [wei shen jing]
 	// 草泥马 cnm [cao ni ma]
 }
+
+// https://github.com/caiguanhao/sogoudict/pull/1
+func Test_PR1(t *testing.T) {
+	// this dict file might be partially corrupted, so the total number of items
+	// in this dict file is slightly less than the one on the web page
+	// http://pinyin.sogou.com/dict/detail/index/4
+	url := "http://download.pinyin.sogou.com/dict/download_cell.php?id=4&name="
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	req.Header.Set("Referer", "http://pinyin.sogou.com/")
+	resp, err := (&http.Client{}).Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	dict, err := sogoudict.Parse(bytes.NewReader(body))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err != nil {
+		t.Error("error", err)
+	} else if len(dict.Items) != 7975 {
+		t.Error("bad items count")
+	}
+}
