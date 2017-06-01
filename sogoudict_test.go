@@ -124,7 +124,7 @@ func Test_PR1(t *testing.T) {
 	}
 	if err != nil {
 		t.Error("error", err)
-	} else if len(dict.Items) != 7975 {
-		t.Error("bad items count")
+	} else if len(dict.Items) < 8000 {
+		t.Error("bad items count", len(dict.Items))
 	}
 }
